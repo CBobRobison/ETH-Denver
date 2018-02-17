@@ -1,18 +1,17 @@
 import { sourceMap, sourceCode, bytecode, trace } from './exampleData';
 import { parse } from './sourceMap';
 import { lineNumbers, lineInfo } from './lineNumbers';
-import { letIn } from './utils';
+import { letIn, objectReduce, idLog } from './utils';
 
 const srcmap = parse(sourceMap, sourceCode, bytecode);
 
-const result = trace
-    .map(t => ({
-        gasCost: t.gasCost,
-        ...srcmap[t.pc]
-    }))
+objectReduce(trace, (cost, pc, gasCost) => idLog('ASD: ' + pc + ' ' + srcmap[pc]));
 
-const aggregateByLine = trace => trace
-    .reduce((costs, {pc, gasCost}) =>
+// objectReduce(trace, (cost, pc, gasCost) => idLog(srcmap[pc]));
+
+
+const aggregateByLine = trace => 
+    objectReduce(trace, (costs, pc, gasCost) =>
         letIn(srcmap[pc].source.lineStart, line => ({
             ...costs,
             [line]: gasCost + (costs[line] || 0)
