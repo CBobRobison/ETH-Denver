@@ -72,7 +72,7 @@ const addProgramCounters = bytecode => sourceMap =>
             ...v,
             instruction: {
                 ...v.instruction,
-                programCounter: pcs[v.instruction.index]
+                ...pcs[v.instruction.index]
             }
         }))
     );
