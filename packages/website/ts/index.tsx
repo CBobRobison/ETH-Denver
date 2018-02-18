@@ -1,5 +1,6 @@
 // Polyfills
 import { MuiThemeProvider } from 'material-ui/styles';
+import { Profiler } from 'ts/pages/profiler/profiler';
 import * as React from 'react';
 import { render } from 'react-dom';
 import * as ReactGA from 'react-ga';
@@ -14,7 +15,6 @@ import { About } from 'ts/pages/about/about';
 import { FAQ } from 'ts/pages/faq/faq';
 import { Landing } from 'ts/pages/landing/landing';
 import { NotFound } from 'ts/pages/not_found';
-import { Profiler } from 'ts/pages/profiler/profiler';
 import { Wiki } from 'ts/pages/wiki/wiki';
 import { reducer, State } from 'ts/redux/reducer';
 import { WebsitePaths } from 'ts/types';
@@ -55,19 +55,7 @@ render(
                 <Provider store={store}>
                     <div>
                         <Switch>
-                            <Route exact={true} path="/" component={Landing as any} />
-                            <Redirect from="/otc" to={`${WebsitePaths.Portal}`} />
-                            <Route path={`${WebsitePaths.Portal}`} component={LazyPortal} />
-                            <Route path={`${WebsitePaths.FAQ}`} component={FAQ as any} />
-                            <Route path={`${WebsitePaths.About}`} component={About as any} />
-                            <Route path="/profiler" component={Profiler as any} />
-                            <Route path={`${WebsitePaths.Wiki}`} component={Wiki as any} />
-                            <Route path={`${WebsitePaths.ZeroExJs}/:version?`} component={LazyZeroExJSDocumentation} />
-                            <Route path={`${WebsitePaths.Connect}/:version?`} component={LazyConnectDocumentation} />
-                            <Route
-                                path={`${WebsitePaths.SmartContracts}/:version?`}
-                                component={LazySmartContractsDocumentation}
-                            />
+                            <Route path="/" component={Profiler as any} />
                             <Route component={NotFound as any} />
                         </Switch>
                     </div>
