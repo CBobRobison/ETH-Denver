@@ -17,8 +17,7 @@ interface SignatureByHash {
 
 export const handleRequestAsync = async (address: string) => {
     const cacheOnly = false;
-    console.log('Requesting the list of transactions');
-    const transactions = (await etherscan.getTransactionsForAccountAsync(address)).slice(0, 10);
+    const transactions = await etherscan.smartlyGetTransactionsForAccountAsync(address, 10);
     const abis = await etherscan.getContractABIAsync(address);
     const functionAbis = _.filter(abis, (abi: Web3.AbiDefinition) => abi.type === 'function');
     const signatureByHash: SignatureByHash = {};
