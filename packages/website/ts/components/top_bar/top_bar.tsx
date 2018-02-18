@@ -355,7 +355,8 @@ export class TopBar extends React.Component<TopBarProps, TopBarState> {
         });
     }
     private _isViewingPortal() {
-        return _.includes(this.props.location.pathname, WebsitePaths.Portal);
+        // return _.includes(this.props.location.pathname, WebsitePaths.Portal);
+        return true;
     }
     private _isViewingFAQ() {
         return _.includes(this.props.location.pathname, WebsitePaths.FAQ);
