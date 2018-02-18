@@ -13,26 +13,26 @@ export class StretchableLambo extends React.Component<StrechableLamboProps> {
     public render() {
         const angle = 130 - this.props.width;
         const baseStyle = {
-            float:'right',
-            height: '21.5',
+            float: 'right',
+            height: 21.5,
             width: this.props.width,
             borderImageSource: 'url(images/stretch-lambo.png)',
             borderStyle: 'solid',
-            borderLeftWidth: '45px',
-            borderRightWidth: '37px',
+            borderLeftWidth: 45,
+            borderRightWidth: 37,
             borderImageSlice: '0 30% 0 40% fill',
             borderTop: '0',
             borderBottom: '0',
-            filter: `hue-rotate(${angle}deg)`
+            filter: `hue-rotate(${angle}deg)`,
         };
         const transparent = {
-            filter: 'grayscale(100%) opacity(15%) blur(1px)'
-        }
+            filter: 'grayscale(100%) opacity(15%) blur(1px)',
+        };
         const style = {
             ...baseStyle,
-            ...(this.props.width === 0 ? transparent : {})
+            ...this.props.width === 0 ? transparent : {},
         };
-        return <div style={style}/>;
+        return <div style={style} />;
     }
 }
 
