@@ -50,8 +50,15 @@ export const handleRequestAsync = async (address: string) => {
     const gasCostByPcBySignature: GasCostByPcBySignature = {};
     const txCountBySignature: TxCountBySignature = {};
     for (const transaction of transactions) {
+        let signature: string;
+        if (_.isEmpty(transaction.input)) {
+            signature = '()';
+        }
         const sigHash = transaction.input.substr(0, 10);
-        const signature = signatureByHash[sigHash];
+        signature = signatureByHash[sigHash];
+        if (_.isUndefined(signature)) {
+            signature = '()';
+        }
         console.log(`Processing https://etherscan.io/tx/${transaction.hash}`);
         const conciseTxTrace = await trace.getTransactionConciseTraceAsync(transaction.hash, cacheOnly);
         const txGasCostByPc = trace.getGasCostByPcFromConciseTxTrace(conciseTxTrace);
