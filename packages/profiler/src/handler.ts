@@ -17,7 +17,7 @@ interface SignatureByHash {
 
 export const handleRequestAsync = async (address: string) => {
     const cacheOnly = false;
-    const transactions = await etherscan.getTransactionsForAccountAsync(address);
+    const transactions = (await etherscan.getTransactionsForAccountAsync(address)).slice(0, 20);
     const abis = await etherscan.getContractABIAsync(address);
     const functionAbis = _.filter(abis, (abi: Web3.AbiDefinition) => abi.type === 'function');
     const signatureByHash: SignatureByHash = {};
@@ -43,11 +43,14 @@ export const handleRequestAsync = async (address: string) => {
         gasCostByPcBySignature[signature] = trace.combineGasCostByPc(gasCostByPcBySignature[signature], txGasCostByPc);
         txCountBySignature[signature] = (txCountBySignature[signature] || 0) + 1;
     }
-    const contract = addSourceMap(await etherscan.getContractInfoAsync(address));
-    const gasCostByPcToLines = makeGasCostByPcToLines(contract);
+    const contractMetadata = addSourceMap(await etherscan.getContractInfoAsync(address));
+    const gasCostByPcToLines = makeGasCostByPcToLines(contractMetadata);
     const gasCostByLineBySignature = _.mapValues(gasCostByPcBySignature, gasCostByPcToLines);
+    const contractMetadataToReturn = contractMetadata;
+    delete contractMetadataToReturn.bytecode;
+    delete contractMetadataToReturn.sourcemap;
     const responseData = {
-        sourceCode,
+        ...contractMetadataToReturn,
         txCountBySignature,
         gasCostByLineBySignature,
     };

@@ -1,7 +1,9 @@
 import * as solc from 'solc';
+
+import { ContractInfo } from './types';
 import { readHex } from './utils';
 
-export const addSourceMap = contractInfo => {
+export const addSourceMap = (contractInfo: ContractInfo) => {
     const { name, sourcecode, bytecode, solcVersion, optimized, optimizedRounds } = contractInfo;
 
     const solcBinPath = `../../deployer/src/solc/solc_bin/soljson-${solcVersion}.js`;
