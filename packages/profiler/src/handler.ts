@@ -1,3 +1,4 @@
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as jsSHA3 from 'js-sha3';
@@ -15,11 +16,27 @@ interface SignatureByHash {
     [sigHash: string]: string;
 }
 
+const web3 = new Web3(new Web3.providers.HttpProvider('http://node.web3api.com:8545'));
+const web3Wrapper = new Web3Wrapper(web3.currentProvider);
+
 export const handleRequestAsync = async (address: string) => {
+    const isContract = await web3Wrapper.doesContractExistAtAddressAsync(address);
+    if (!isContract) {
+        return {
+            error: 'NOT_A_CONTRACT',
+        };
+    }
     const cacheOnly = false;
     const transactions = await etherscan.smartlyGetTransactionsForAccountAsync(address, 10);
-    const abis = await etherscan.getContractABIAsync(address);
-    const functionAbis = _.filter(abis, (abi: Web3.AbiDefinition) => abi.type === 'function');
+    let abis: Web3.ContractAbi;
+    try {
+        abis = await etherscan.getContractABIAsync(address);
+    } catch (e) {
+        return {
+            error: 'NO_ABI_FOUND',
+        };
+    }
+    const functionAbis = _.filter(abis, abi => abi.type === 'function');
     const signatureByHash: SignatureByHash = {};
     _.map(functionAbis, (methodAbi: Web3.MethodAbi) => {
         const signature = `${methodAbi.name}(${_.map(
