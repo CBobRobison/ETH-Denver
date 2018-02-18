@@ -207,9 +207,13 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             }
             const tooltipId = `${i}-tooltip`;
             const bar = (
-                <div key={`${i}-bar`} className="clearfix" style={{ width: '100%'}}>
+                <div key={`${i}-bar`} className="clearfix" style={{
+                    width: '100%',
+                    height: '21.5px !important',
+                    overflow: 'hidden'
+                }}>
                     <span data-tip={true} data-for={tooltipId}>
-                        {(this.state.lambo ?
+                        {(this.state.lambo && width > 0 ?
                             <StretchableLambo key={`${i}-bar`} width={width}/>
                         :
                             <div className="right" style={{ height: 21.5, width, backgroundColor: barColor }} />
@@ -317,9 +321,9 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             selectedMethod: value,
         });
     }
-    private _onToggleLambo(event: any, index: number, isInputChecked: boolean) {
+    private _onToggleLambo(event: any, isInputChecked: boolean) {
         this.setState({
-            lambo: isInputChecked
+            lambo: isInputChecked,
         });
     }
     private async _fetchGasStatsAsync() {
