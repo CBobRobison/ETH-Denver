@@ -78,7 +78,7 @@ const indexByProgramCounters = sourceMap =>
         {},
     );
 
-export const parse = ({sourcemap, sourcecode, bytecode}) =>
+export const parse = ({ sourcemap, sourcecode, bytecode }) =>
     [
         _ => baseParse(sourcemap),
         addLineNumbers(sourcecode),

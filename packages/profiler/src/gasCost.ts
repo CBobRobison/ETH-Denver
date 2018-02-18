@@ -1,3 +1,4 @@
+import { cache } from './cache';
 import { parse } from './sourceMap';
 import { GasCostByLine } from './types';
 import { letIn, objectReduce } from './utils';
@@ -13,4 +14,5 @@ const aggregateByLine = srcmap => trace =>
         {},
     );
 
-export const makeGasCostByPcToLines = contract => aggregateByLine(parse(contract));
+export const makeGasCostByPcToLinesAsync = async contract =>
+    aggregateByLine(await cache('parsed_contract_cache', parse)(contract));

@@ -7,7 +7,7 @@ import * as Web3 from 'web3';
 import { addSourceMapAsync } from './compiler';
 import { etherscan } from './etherscan';
 import { bytecode, sourceCode, sourceMap } from './exampleData';
-import { makeGasCostByPcToLines } from './gasCost';
+import { makeGasCostByPcToLinesAsync } from './gasCost';
 import { trace } from './trace';
 import { GasCostByPcBySignature, TxCountBySignature } from './types';
 import { web3Wrapper } from './web3';
@@ -65,7 +65,7 @@ export const handleRequestAsync = async (address: string) => {
         txCountBySignature[signature] = (txCountBySignature[signature] || 0) + 1;
     }
     const contractMetadata = await addSourceMapAsync(await etherscan.getContractInfoAsync(address));
-    const gasCostByPcToLines = makeGasCostByPcToLines(contractMetadata);
+    const gasCostByPcToLines = await makeGasCostByPcToLinesAsync(contractMetadata);
     const gasCostByLineBySignature = _.mapValues(gasCostByPcBySignature, gasCostByPcToLines);
     const contractMetadataToReturn = contractMetadata;
     delete contractMetadataToReturn.bytecode;
