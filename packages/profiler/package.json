@@ -30,6 +30,7 @@
         "web3-typescript-typings": "^0.9.11"
     },
     "dependencies": {
+        "@0xproject/web3-wrapper": "^0.1.14",
         "body-parser": "^1.18.2",
         "express": "^4.16.2",
         "fs-extra": "^5.0.0",

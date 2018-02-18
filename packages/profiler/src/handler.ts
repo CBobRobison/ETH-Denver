@@ -1,10 +1,11 @@
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as jsSHA3 from 'js-sha3';
 import * as _ from 'lodash';
 import * as Web3 from 'web3';
 
-import { addSourceMap } from './compiler';
+import { addSourceMapAsync } from './compiler';
 import { etherscan } from './etherscan';
 import { bytecode, sourceCode, sourceMap } from './exampleData';
 import { makeGasCostByPcToLines } from './gasCost';
@@ -15,11 +16,27 @@ interface SignatureByHash {
     [sigHash: string]: string;
 }
 
+const web3 = new Web3(new Web3.providers.HttpProvider('http://node.web3api.com:8545'));
+const web3Wrapper = new Web3Wrapper(web3.currentProvider);
+
 export const handleRequestAsync = async (address: string) => {
+    const isContract = await web3Wrapper.doesContractExistAtAddressAsync(address);
+    if (!isContract) {
+        return {
+            error: 'NOT_A_CONTRACT',
+        };
+    }
     const cacheOnly = false;
-    const transactions = (await etherscan.getTransactionsForAccountAsync(address)).slice(0, 20);
-    const abis = await etherscan.getContractABIAsync(address);
-    const functionAbis = _.filter(abis, (abi: Web3.AbiDefinition) => abi.type === 'function');
+    const transactions = await etherscan.smartlyGetTransactionsForAccountAsync(address, 10);
+    let abis: Web3.ContractAbi;
+    try {
+        abis = await etherscan.getContractABIAsync(address);
+    } catch (e) {
+        return {
+            error: 'NO_ABI_FOUND',
+        };
+    }
+    const functionAbis = _.filter(abis, abi => abi.type === 'function');
     const signatureByHash: SignatureByHash = {};
     _.map(functionAbis, (methodAbi: Web3.MethodAbi) => {
         const signature = `${methodAbi.name}(${_.map(
@@ -43,7 +60,7 @@ export const handleRequestAsync = async (address: string) => {
         gasCostByPcBySignature[signature] = trace.combineGasCostByPc(gasCostByPcBySignature[signature], txGasCostByPc);
         txCountBySignature[signature] = (txCountBySignature[signature] || 0) + 1;
     }
-    const contractMetadata = addSourceMap(await etherscan.getContractInfoAsync(address));
+    const contractMetadata = await addSourceMapAsync(await etherscan.getContractInfoAsync(address));
     const gasCostByPcToLines = makeGasCostByPcToLines(contractMetadata);
     const gasCostByLineBySignature = _.mapValues(gasCostByPcBySignature, gasCostByPcToLines);
     const contractMetadataToReturn = contractMetadata;

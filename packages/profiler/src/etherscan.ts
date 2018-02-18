@@ -1,3 +1,4 @@
+import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { decodeHTML } from 'entities';
 import * as fs from 'fs-extra';
 import 'isomorphic-fetch';
@@ -9,15 +10,39 @@ import { ETHERSCAN_API_KEY } from './secrets';
 import { ContractInfo, Transaction } from './types';
 import { readHex } from './utils';
 
+const web3 = new Web3(new Web3.providers.HttpProvider('http://node.web3api.com:8545'));
+const web3Wrapper = new Web3Wrapper(web3.currentProvider);
+
 export const etherscan = {
-    async getTransactionsForAccountAsync(address: string): Promise<Transaction[]> {
-        const startblock = 5110472;
+    async smartlyGetTransactionsForAccountAsync(address: string, limit: number): Promise<Transaction[]> {
+        const blockNumber = await web3Wrapper.getBlockNumberAsync();
+        let blockWindowSize = 1;
+        while (true) {
+            console.log(`Block window size: ${blockWindowSize}`);
+            const transactions = await etherscan.getTransactionsForAccountAsync(
+                address,
+                blockNumber - blockWindowSize + 1,
+                blockNumber,
+            );
+            console.log(`Transactions: ${transactions.length}`);
+            if (transactions.length >= limit) {
+                return transactions.slice(0, limit);
+            } else {
+                blockWindowSize *= 2;
+            }
+        }
+    },
+    async getTransactionsForAccountAsync(
+        address: string,
+        startblock: number,
+        endblock: number,
+    ): Promise<Transaction[]> {
         const params = {
             module: 'account',
             action: 'txlist',
             address,
             startblock,
-            endblock: 100000000,
+            endblock,
             apikey: ETHERSCAN_API_KEY,
         };
         const url = `http://api.etherscan.io/api?${queryString.stringify(params)}`;
@@ -55,7 +80,7 @@ export const etherscan = {
                 soup
                     .find('div', { id: 'dividcode' })
                     .find('pre')
-                    .contents[0].toString(),
+                    .contents.toString(),
             );
             const bytecodeHex = soup.find('div', { id: 'verifiedbytecode2' }).contents[0].toString();
             const bytecode = readHex(bytecodeHex);
