@@ -117,13 +117,14 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
     }
     private _renderContractAddressInput() {
         return (
-            <div className="mx-auto flex pb2" style={{ width: 400 }}>
+            <div className="mx-auto flex pb2" style={{ width: 476 }}>
                 <div>
                     <TextField
                         value={this.state.contractAddress}
                         floatingLabelText="Contract Address"
                         onChange={this._contractAddressUpdated.bind(this)}
                         errorText={this.state.addressErrMsg}
+                        style={{ width: 372 }}
                     />
                 </div>
                 <div className="pl2" style={{ paddingTop: 27 }}>
