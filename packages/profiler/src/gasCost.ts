@@ -1,7 +1,7 @@
-import { sourceMap, sourceCode, bytecode, trace } from './exampleData';
+import { bytecode, sourceCode, sourceMap, trace } from './exampleData';
+import { lineInfo, lineNumbers } from './lineNumbers';
 import { parse } from './sourceMap';
-import { lineNumbers, lineInfo } from './lineNumbers';
-import { letIn, objectReduce, idLog } from './utils';
+import { idLog, letIn, objectReduce } from './utils';
 
 const aggregateByLine = srcmap => trace =>
     objectReduce(

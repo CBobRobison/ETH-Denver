@@ -1,6 +1,6 @@
-import { letIn, idLog } from './utils';
-import { lineNumbers, lineInfo } from './lineNumbers';
 import { programCounters } from './instructions';
+import { lineInfo, lineNumbers } from './lineNumbers';
+import { idLog, letIn } from './utils';
 
 // Takes a sourcemap string
 // The solidity sourcemap format is documented here: [docs][doc].

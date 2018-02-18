@@ -1,6 +1,6 @@
-import { sourceMap, sourceCode, bytecode, trace } from './exampleData';
-import { lineInfo } from './lineNumbers';
+import { bytecode, sourceCode, sourceMap, trace } from './exampleData';
 import { makeGasCostByPcToLines } from './gasCost';
+import { lineInfo } from './lineNumbers';
 
 const gasCostByPcToLines = makeGasCostByPcToLines(sourceMap, sourceCode, bytecode);
 

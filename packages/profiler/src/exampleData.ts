@@ -1,4 +1,4 @@
-import { readTextFile, readHex, readJsonFile } from './utils';
+import { readHex, readJsonFile, readTextFile } from './utils';
 
 // Wrapped ETH 9:
 // Contract Name: 	WETH9
