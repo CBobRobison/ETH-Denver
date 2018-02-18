@@ -1,14 +1,27 @@
+const path = require('path');
+const webpack = require('webpack');
+
 module.exports = {
-    devtool: 'inline-source-map',
-    entry: './src/index.tsx',
+    entry: ['./src/index.tsx'],
     output: {
-        path: __dirname + '/public',
-        filename: 'build/app.js',
+        path: path.join(__dirname, '/public'),
+        filename: 'bundle.js',
+        publicPath: '/',
     },
+    devtool: 'source-map',
     resolve: {
-        extensions: ['.ts', '.tsx'],
+        modules: [path.join(__dirname, '/src'), 'node_modules'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.md'],
+        alias: {
+            ts: path.join(__dirname, '/src'),
+        },
     },
     module: {
-        rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
+        rules: [
+            {
+                test: /\.tsx?$/,
+                loader: 'awesome-typescript-loader',
+            },
+        ],
     },
 };
