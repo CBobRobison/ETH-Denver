@@ -1,6 +1,6 @@
-import { letIn, idLog } from './utils';
-import { lineNumbers, lineInfo } from './lineNumbers';
 import { programCounters } from './instructions';
+import { getLineInfo, lineNumbers } from './lineNumbers';
+import { idLog, letIn } from './utils';
 
 // Takes a sourcemap string
 // The solidity sourcemap format is documented here: [docs][doc].
@@ -51,7 +51,7 @@ const addLineNumbers = sourceCode => sourceMap =>
     );
 
 const addLine = sourceCode => sourceMap =>
-    letIn(lineInfo(sourceCode), lineInfo =>
+    letIn(getLineInfo(sourceCode), lineInfo =>
         sourceMap.map(v => ({
             ...v,
             line: lineInfo[v.source.lineStart],
@@ -78,11 +78,11 @@ const indexByProgramCounters = sourceMap =>
         {},
     );
 
-export const parse = (sourceMap, sourceCode, bytecode) =>
+export const parse = ({sourcemap, sourcecode, bytecode}) =>
     [
-        _ => baseParse(sourceMap),
-        addLineNumbers(sourceCode),
-        addLine(sourceCode),
+        _ => baseParse(sourcemap),
+        addLineNumbers(sourcecode),
+        addLine(sourcecode),
         addProgramCounters(bytecode),
         indexByProgramCounters,
     ].reduce((v, f) => f(v), undefined);
