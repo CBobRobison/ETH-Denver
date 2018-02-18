@@ -1,13 +1,15 @@
+import * as bodyParser from 'body-parser';
+import * as express from 'express';
 import * as _ from 'lodash';
 
 import { etherscan } from './etherscan';
-import { sourceMapper } from './sourcemapper';
+import { bytecode, sourceCode, sourceMap } from './exampleData';
+import { makeGasCostByPcToLines } from './gasCost';
 import { trace } from './trace';
 import { GasCostByPc } from './types';
 
-(async () => {
-    const address = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
-    const cacheOnly = false;
+export const handleRequestAsync = async (address: string) => {
+    const cacheOnly = true;
     const transactions = await etherscan.getTransactionsForAccountAsync(address);
     console.log(`Fetched ${transactions.length} transactions`);
     let gasCostByPc: GasCostByPc = {};
@@ -17,6 +19,11 @@ import { GasCostByPc } from './types';
         const txGasCostByPc = trace.getGasCostByPcFromConciseTxTrace(conciseTxTrace);
         gasCostByPc = trace.combineGasCostByPc(gasCostByPc, txGasCostByPc);
     }
-    const gasCostByLine = sourceMapper.getGasCostByPcToGasCostByLine(gasCostByPc);
-    console.log(gasCostByLine);
-})();
+    const gasCostByPcToLines = makeGasCostByPcToLines(sourceMap, sourceCode, bytecode);
+    const gasCostByLine = gasCostByPcToLines(gasCostByPc);
+    const responseData = {
+        sourceCode,
+        gasCostByLine,
+    };
+    return responseData;
+};
