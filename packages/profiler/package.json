@@ -6,7 +6,7 @@
         "build:watch": "tsc -w",
         "lint": "tslint --project . 'src/**/*.ts'",
         "clean": "shx rm -rf lib",
-        "start": "node lib/backend.js",
+        "start": "node lib/server.js",
         "build": "tsc"
     },
     "repository": {
@@ -16,6 +16,7 @@
     "license": "Apache-2.0",
     "devDependencies": {
         "@0xproject/tslint-config": "^0.4.9",
+        "@types/express": "^4.11.1",
         "@types/fs-extra": "^5.0.0",
         "@types/lodash": "^4.14.86",
         "@types/node": "^8.0.53",
@@ -26,6 +27,8 @@
         "typescript": "2.7.1"
     },
     "dependencies": {
+        "body-parser": "^1.18.2",
+        "express": "^4.16.2",
         "fs-extra": "^5.0.0",
         "isomorphic-fetch": "^2.2.1",
         "lodash": "^4.17.5",

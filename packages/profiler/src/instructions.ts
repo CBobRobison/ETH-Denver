@@ -7,7 +7,7 @@ const pushDataLength = inst => inst - 0x5f;
 const instructionLength = inst => (isPush(inst) ? 1 + pushDataLength(inst) : 1);
 
 const instIndexToByte = bytecode => {
-    const result: number[] = [];
+    const result: any[] = [];
     let byteIndex = 0;
     let instIndex = 0;
     while (byteIndex < bytecode.length) {

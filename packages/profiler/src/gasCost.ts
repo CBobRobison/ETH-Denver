@@ -1,4 +1,3 @@
-import { bytecode, sourceCode, sourceMap, trace } from './exampleData';
 import { lineInfo, lineNumbers } from './lineNumbers';
 import { parse } from './sourceMap';
 import { idLog, letIn, objectReduce } from './utils';
@@ -14,4 +13,5 @@ const aggregateByLine = srcmap => trace =>
         {},
     );
 
-export const makeGasCostByPcToLines = (...parseArgs) => aggregateByLine(parse(...parseArgs));
+export const makeGasCostByPcToLines = (sourceMap, sourceCode, byteCode) =>
+    aggregateByLine(parse(sourceMap, sourceCode, byteCode));
