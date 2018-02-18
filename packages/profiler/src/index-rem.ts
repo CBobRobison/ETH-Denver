@@ -1,12 +1,19 @@
-import { sourceMap, sourceCode, bytecode, trace } from './exampleData';
-import { lineInfo } from './lineNumbers';
-import { makeGasCostByPcToLines } from './gasCost';
+import { trace } from './exampleData';
+import { fetchContractInfo } from './etherscan';
+import { addSourceMap } from './compiler'
+import { makeGasCostByPcToLines } from './gasCost'
 
-const gasCostByPcToLines = makeGasCostByPcToLines(sourceMap, sourceCode, bytecode);
+(async () => {
+    
+    const address = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 
-const data = gasCostByPcToLines(trace);
-const lines = lineInfo(sourceCode);
+    const contract = addSourceMap(await fetchContractInfo(address));
 
-lines.map((line, index) => {
-    console.log(`${data[index] || 0}\t ${line.line}`);
-})
+    const gasCostByPcToLines = makeGasCostByPcToLines(contract);
+
+    const gasCost = gasCostByPcToLines(trace);
+    
+    ['', ...contract.sourcecode.split('\n')].map((line, index) =>
+        console.log(`${gasCost[index]||0}\t${line}`))
+    
+})();

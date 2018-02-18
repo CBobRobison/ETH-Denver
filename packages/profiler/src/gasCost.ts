@@ -5,11 +5,11 @@ import { letIn, objectReduce, idLog } from './utils';
 
 const aggregateByLine = srcmap => trace => 
     objectReduce(trace, (costs, pc, gasCost) =>
-        letIn(srcmap[pc].source.lineStart, line => ({
+        letIn(pc in srcmap ? srcmap[pc].source.lineStart : 0, line => ({
             ...costs,
             [line]: gasCost + (costs[line] || 0)
         })),
     {});
 
-export const makeGasCostByPcToLines = (...parseArgs) =>
-    aggregateByLine(parse(...parseArgs))
+export const makeGasCostByPcToLines = (contract) =>
+    aggregateByLine(parse(contract))

@@ -83,10 +83,10 @@ const indexByProgramCounters = sourceMap => sourceMap
         [v.instruction.programCounter]: v
     }), {})
 
-export const parse = (sourceMap, sourceCode, bytecode) => [
-        _ => baseParse(sourceMap),
-        addLineNumbers(sourceCode),
-        addLine(sourceCode),
+export const parse = ({sourcemap, sourcecode, bytecode}) => [
+        _ => baseParse(sourcemap),
+        addLineNumbers(sourcecode),
+        addLine(sourcecode),
         addProgramCounters(bytecode),
         indexByProgramCounters
     ].reduce((v, f) => f(v), undefined)
