@@ -253,6 +253,13 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                     <div />
                     {this._renderContractAddressInput()}
                     {this._renderStats()}
+                    <div className="flex clearfix">
+                        <div className="col col-2" />
+                        <div className="col col-10 flex">
+                            {this._renderMethodDropDown()}
+                            {this._renderLamboToggle()}
+                        </div>
+                    </div>
                     {this._renderResults()}
                 </div>
                 <Footer />
@@ -354,14 +361,14 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
         }
         return (
             <div className="pt2 clearfix">
-                <div className="col col-2">{this._renderBars()}</div>
+                <div className="col col-2" style={{ padding: '15px 0px 12px 12px' }}>
+                    {this._renderBars()}
+                </div>
                 <div className="col col-10">
-                    <div className="flex">
-                        {this._renderMethodDropDown()}
-                        {this._renderLamboToggle()}
-                    </div>
                     <div>
-                        <HighLight className={'solidity'}>{this.state.gasStatsIfExist.sourcecode}</HighLight>
+                        <HighLight className={'solidity'} style={{ fontSize: 16, padding: 3 }}>
+                            {this.state.gasStatsIfExist.sourcecode}
+                        </HighLight>
                     </div>
                 </div>
             </div>
@@ -409,7 +416,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             bars.push(bar);
             i++;
         });
-        return <div style={{ paddingTop: 84 }}>{bars}</div>;
+        return <div>{bars}</div>;
     }
     private _getBarColor(percent: number): string {
         const color = 'green';
