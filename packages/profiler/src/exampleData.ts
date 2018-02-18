@@ -17,4 +17,4 @@ export const sourceMap = compiledJson["srcmap-runtime"];
 
 export const sourceCode = readTextFile("WETH.sol");
 
-export const trace = readJsonFile('aggegrate.json');
+export const trace = readJsonFile('aggregate.json');
