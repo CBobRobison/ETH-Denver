@@ -9,4 +9,4 @@ const lines = lineInfo(sourceCode);
 
 lines.map((line, index) => {
     console.log(`${data[index] || 0}\t ${line.line}`);
-})
+});
