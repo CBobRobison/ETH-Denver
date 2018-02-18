@@ -35,7 +35,7 @@ interface ProfilerState {
     lambo: boolean;
 }
 
-export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
+export class Profiler extends React.PureComponent<ProfilerProps, ProfilerState> {
     constructor() {
         super();
         const percentToColor = this._getPercentToColor();
