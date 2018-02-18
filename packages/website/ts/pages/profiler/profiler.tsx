@@ -1,11 +1,11 @@
 import { addressUtils } from '@0xproject/utils';
 import * as chroma from 'chroma-js';
 import * as _ from 'lodash';
+import Checkbox from 'material-ui/Checkbox';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
-import Checkbox from 'material-ui/Checkbox';
 import * as React from 'react';
 import * as DocumentTitle from 'react-document-title';
 import * as HighLight from 'react-highlight';
