@@ -154,7 +154,7 @@ export class TopBar extends React.Component<TopBarProps, TopBarState> {
                     </div>
                     <div className={`col col-${isFullWidthPage ? '8' : '9'} lg-hide md-hide`} />
                     <div className={`col col-${isFullWidthPage ? '6' : '5'} sm-hide xs-hide`} />
-                    {!this._isViewingPortal() && (
+                    {!true && (
                         <div className={menuClasses}>
                             <div className="flex justify-between">
                                 <DropDown
@@ -355,8 +355,7 @@ export class TopBar extends React.Component<TopBarProps, TopBarState> {
         });
     }
     private _isViewingPortal() {
-        // return _.includes(this.props.location.pathname, WebsitePaths.Portal);
-        return true;
+        return _.includes(this.props.location.pathname, WebsitePaths.Portal);
     }
     private _isViewingFAQ() {
         return _.includes(this.props.location.pathname, WebsitePaths.FAQ);
@@ -379,7 +378,8 @@ export class TopBar extends React.Component<TopBarProps, TopBarState> {
             this._isViewing0xjsDocs() ||
             this._isViewingFAQ() ||
             this._isViewingSmartContractsDocs() ||
-            this._isViewingConnectDocs()
+            this._isViewingConnectDocs() ||
+            true
         );
     }
 }
