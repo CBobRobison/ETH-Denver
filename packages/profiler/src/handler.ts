@@ -1,4 +1,3 @@
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as jsSHA3 from 'js-sha3';
@@ -11,13 +10,11 @@ import { bytecode, sourceCode, sourceMap } from './exampleData';
 import { makeGasCostByPcToLines } from './gasCost';
 import { trace } from './trace';
 import { GasCostByPcBySignature, TxCountBySignature } from './types';
+import { web3Wrapper } from './web3';
 
 interface SignatureByHash {
     [sigHash: string]: string;
 }
-
-const web3 = new Web3(new Web3.providers.HttpProvider('http://node.web3api.com:8545'));
-const web3Wrapper = new Web3Wrapper(web3.currentProvider);
 
 export const handleRequestAsync = async (address: string) => {
     const isContract = await web3Wrapper.doesContractExistAtAddressAsync(address);

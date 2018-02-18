@@ -45,6 +45,7 @@ export const trace = {
                 pc: traceEntry.pc,
                 gasCost: traceEntry.gasCost,
             }));
+            console.log(`Cache miss: https://etherscan.io/tx/${txHash}`);
             await fs.writeJSON(cachePath, conciseTxTrace);
             return conciseTxTrace;
         }
