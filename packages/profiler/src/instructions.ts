@@ -1,5 +1,6 @@
+import { codes } from './opcodes'
 
-const isPush = inst => inst >= 0x60 && inst < 0x7f;
+const isPush = inst => inst >= 0x60 && inst <= 0x7f;
 
 const pushDataLength = inst => inst - 0x5f;
 
@@ -11,10 +12,15 @@ const instIndexToByte = bytecode => {
     let instIndex = 0;
     while (byteIndex < bytecode.length) {
         const instruction = bytecode[byteIndex];
+        const opcode = codes[instruction];
         const length = instructionLength(instruction);
-        
-        result.push(byteIndex);
-        
+        result.push({
+            instruction,
+            length,
+            programCounter: byteIndex,
+            index: instIndex,
+            meta: opcode
+        });
         byteIndex += length;
         instIndex += 1;
     }
