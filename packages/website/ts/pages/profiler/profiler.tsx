@@ -208,7 +208,7 @@ export class Profiler extends React.PureComponent<ProfilerProps, ProfilerState> 
                     style={{
                         width: '100%',
                         height: 21,
-                        overflow: 'hidden',
+                        overflow: this.state.lambo ? 'visible' : 'hidden',
                     }}
                 >
                     <span data-tip={true} data-for={tooltipId}>
