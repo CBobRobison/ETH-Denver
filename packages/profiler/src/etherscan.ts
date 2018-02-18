@@ -1,4 +1,3 @@
-import { Web3Wrapper } from '@0xproject/web3-wrapper';
 import { decodeHTML } from 'entities';
 import * as fs from 'fs-extra';
 import 'isomorphic-fetch';
@@ -9,13 +8,11 @@ import * as Web3 from 'web3';
 import { ETHERSCAN_API_KEY } from './secrets';
 import { ContractInfo, Transaction } from './types';
 import { readHex } from './utils';
-
-const web3 = new Web3(new Web3.providers.HttpProvider('http://node.web3api.com:8545'));
-const web3Wrapper = new Web3Wrapper(web3.currentProvider);
+import { web3Wrapper } from './web3';
 
 export const etherscan = {
     async smartlyGetTransactionsForAccountAsync(address: string, limit: number): Promise<Transaction[]> {
-        const blockNumber = await web3Wrapper.getBlockNumberAsync();
+        const blockNumber = (await web3Wrapper.getBlockNumberAsync()) - 10;
         let blockWindowSize = 1;
         while (true) {
             console.log(`Block window size: ${blockWindowSize}`);
@@ -28,7 +25,7 @@ export const etherscan = {
             if (transactions.length >= limit) {
                 return transactions.slice(0, limit);
             } else {
-                blockWindowSize *= 2;
+                blockWindowSize *= 4;
             }
         }
     },

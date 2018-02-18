@@ -14,7 +14,7 @@ export class StretchableLambo extends React.Component<StrechableLamboProps> {
         const angle = 130 - this.props.width;
         const baseStyle = {
             float: 'right',
-            height: 21.5,
+            height: 21,
             width: this.props.width,
             borderImageSource: 'url(images/stretch-lambo.png)',
             borderStyle: 'solid',

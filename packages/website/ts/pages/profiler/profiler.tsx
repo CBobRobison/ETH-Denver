@@ -95,7 +95,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                     <div>Solc version: {this.state.gasStatsIfExist.solcVersion}</div>
                 </div>
                 <div className="col col-6 left-align">
-                    <div className="pb2">Optimized: {this.state.gasStatsIfExist.optimized}</div>
+                    <div className="pb2">Optimized: {`${this.state.gasStatsIfExist.optimized}`}</div>
                     <div>Optimized rounds: {this.state.gasStatsIfExist.optimizedRounds}</div>
                 </div>
             </div>
@@ -150,13 +150,14 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
     }
     private _renderContractAddressInput() {
         return (
-            <div className="mx-auto flex pb2" style={{ width: 400 }}>
+            <div className="mx-auto flex pb2" style={{ width: 476 }}>
                 <div>
                     <TextField
                         value={this.state.contractAddress}
                         floatingLabelText="Contract Address"
                         onChange={this._contractAddressUpdated.bind(this)}
                         errorText={this.state.addressErrMsg}
+                        style={{ width: 372 }}
                     />
                 </div>
                 <div className="pl2" style={{ paddingTop: 27 }}>
