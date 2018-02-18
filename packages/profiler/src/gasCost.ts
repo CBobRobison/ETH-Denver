@@ -13,5 +13,4 @@ const aggregateByLine = srcmap => trace =>
         {},
     );
 
-export const makeGasCostByPcToLines = (contract) =>
-    aggregateByLine(parse(contract));
+export const makeGasCostByPcToLines = contract => aggregateByLine(parse(contract));

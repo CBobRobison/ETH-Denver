@@ -17,14 +17,12 @@ export const trace = {
         const cachePath = `./consice_trace_cache/${txHash}.json`;
         const cached = await fs.pathExists(cachePath);
         if (cached) {
-            console.log(`Cache hit: ${txHash} :)`);
             const conciseTxTrace = await fs.readJSON(cachePath);
             return conciseTxTrace;
         } else {
             if (onlyCached) {
                 return [];
             }
-            console.log(`Cache miss: ${txHash} :(`);
             const params = {
                 method: 'debug_traceTransaction',
                 jsonrpc: '2.0',
@@ -47,7 +45,6 @@ export const trace = {
                 pc: traceEntry.pc,
                 gasCost: traceEntry.gasCost,
             }));
-            console.log(`Wwarmed up cache: ${txHash}!`);
             await fs.writeJSON(cachePath, conciseTxTrace);
             return conciseTxTrace;
         }

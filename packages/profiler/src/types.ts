@@ -14,6 +14,15 @@ export interface GasCostByLine {
     [line: number]: number;
 }
 
+export interface ContractInfo {
+    name: string;
+    solcVersion: string;
+    sourcecode: string;
+    optimized: boolean;
+    optimizedRounds: number;
+    bytecode: Uint8Array;
+}
+
 export interface Transaction {
     blockNumber: string;
     blockHash: string;

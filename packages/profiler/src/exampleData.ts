@@ -15,6 +15,6 @@ export const bytecode = readHex(compiledJson['bin-runtime']);
 
 export const sourceMap = compiledJson['srcmap-runtime'];
 
-export const sourcecode = readTextFile("WETH.sol");
+export const sourceCode = readTextFile('WETH.sol');
 
 export const trace = readJsonFile('aggregate.json');

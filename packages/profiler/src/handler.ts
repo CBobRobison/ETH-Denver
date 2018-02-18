@@ -4,6 +4,7 @@ import * as jsSHA3 from 'js-sha3';
 import * as _ from 'lodash';
 import * as Web3 from 'web3';
 
+import { addSourceMap } from './compiler';
 import { etherscan } from './etherscan';
 import { bytecode, sourceCode, sourceMap } from './exampleData';
 import { makeGasCostByPcToLines } from './gasCost';
@@ -42,7 +43,8 @@ export const handleRequestAsync = async (address: string) => {
         gasCostByPcBySignature[signature] = trace.combineGasCostByPc(gasCostByPcBySignature[signature], txGasCostByPc);
         txCountBySignature[signature] = (txCountBySignature[signature] || 0) + 1;
     }
-    const gasCostByPcToLines = makeGasCostByPcToLines(sourceMap, sourceCode, bytecode);
+    const contract = addSourceMap(await etherscan.getContractInfoAsync(address));
+    const gasCostByPcToLines = makeGasCostByPcToLines(contract);
     const gasCostByLineBySignature = _.mapValues(gasCostByPcBySignature, gasCostByPcToLines);
     const responseData = {
         sourceCode,
