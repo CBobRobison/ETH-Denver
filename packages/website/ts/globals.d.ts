@@ -12,6 +12,8 @@ declare module 'react-recaptcha';
 declare module 'react-document-title';
 declare module 'ethereumjs-tx';
 declare module 'react-ga';
+declare module 'log-scale';
+declare module 'chroma-js';
 
 declare module '*.json' {
     const json: any;

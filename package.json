@@ -8,7 +8,7 @@
         "prettier": "prettier --write '**/*.{ts,tsx,json,md}' --config .prettierrc",
         "prettier:ci": "prettier --list-different '**/*.{ts,tsx,json,md}' --config .prettierrc",
         "lerna:run": "lerna run",
-        "lerna:rebuild": "lerna run clean; lerna run build;",
+        "lerna:rebuild": "lerna run --ignore profiler clean; lerna run --ignore profiler build;",
         "lerna:publish":
             "yarn install; lerna run clean; lerna run build; lerna publish --registry=https://registry.npmjs.org/"
     },

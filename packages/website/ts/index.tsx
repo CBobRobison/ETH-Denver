@@ -14,6 +14,7 @@ import { About } from 'ts/pages/about/about';
 import { FAQ } from 'ts/pages/faq/faq';
 import { Landing } from 'ts/pages/landing/landing';
 import { NotFound } from 'ts/pages/not_found';
+import { Profiler } from 'ts/pages/profiler/profiler';
 import { Wiki } from 'ts/pages/wiki/wiki';
 import { reducer, State } from 'ts/redux/reducer';
 import { WebsitePaths } from 'ts/types';
@@ -59,6 +60,7 @@ render(
                             <Route path={`${WebsitePaths.Portal}`} component={LazyPortal} />
                             <Route path={`${WebsitePaths.FAQ}`} component={FAQ as any} />
                             <Route path={`${WebsitePaths.About}`} component={About as any} />
+                            <Route path="/profiler" component={Profiler as any} />
                             <Route path={`${WebsitePaths.Wiki}`} component={Wiki as any} />
                             <Route path={`${WebsitePaths.ZeroExJs}/:version?`} component={LazyZeroExJSDocumentation} />
                             <Route path={`${WebsitePaths.Connect}/:version?`} component={LazyConnectDocumentation} />
