@@ -28,7 +28,7 @@ export const etherscan = {
             if (transactions.length >= limit) {
                 return transactions.slice(0, limit);
             } else {
-                blockWindowSize *= 2;
+                blockWindowSize *= 4;
             }
         }
     },
