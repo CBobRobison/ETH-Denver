@@ -11,7 +11,7 @@ import { readHex } from './utils';
 
 export const etherscan = {
     async getTransactionsForAccountAsync(address: string): Promise<Transaction[]> {
-        const startblock = 5110472;
+        const startblock = 5000000;
         const params = {
             module: 'account',
             action: 'txlist',
@@ -55,7 +55,7 @@ export const etherscan = {
                 soup
                     .find('div', { id: 'dividcode' })
                     .find('pre')
-                    .contents[0].toString(),
+                    .contents.toString(),
             );
             const bytecodeHex = soup.find('div', { id: 'verifiedbytecode2' }).contents[0].toString();
             const bytecode = readHex(bytecodeHex);
