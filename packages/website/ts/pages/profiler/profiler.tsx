@@ -74,7 +74,6 @@ export class Profiler extends React.PureComponent<ProfilerProps, ProfilerState> 
                     </div>
                     {this._renderResults()}
                 </div>
-                <Footer />
             </div>
         );
     }
