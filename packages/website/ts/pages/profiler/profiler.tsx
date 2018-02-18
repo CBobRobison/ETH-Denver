@@ -55,7 +55,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                 <div
                     id="profiler"
                     className="mx-auto max-width-4 pb4 pt3 mb4"
-                    style={{ color: colors.grey800, height: 800 }}
+                    style={{ color: colors.grey800, minHeight: 800 }}
                 >
                     <h1 className="center">Solidity Gas Profiler</h1>
                     <div className="p2 center" style={{ fontFamily: 'monospace', fontSize: 14 }}>
