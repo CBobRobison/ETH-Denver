@@ -9,6 +9,7 @@ import * as DocumentTitle from 'react-document-title';
 import * as HighLight from 'react-highlight';
 import ReactTooltip = require('react-tooltip');
 import { Footer } from 'ts/components/footer';
+import { StretchableLambo } from 'ts/components/ui/stretchable_lambo';
 import { TopBar } from 'ts/components/top_bar/top_bar';
 import { HelpTooltip } from 'ts/components/ui/help_tooltip';
 import { LifeCycleRaisedButton } from 'ts/components/ui/lifecycle_raised_button';
@@ -174,10 +175,8 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             }
             const tooltipId = `${i}-tooltip`;
             const bar = (
-                <div key={`${i}-bar`} className="clearfix" style={{ width: '100%' }}>
-                    <span data-tip={true} data-for={tooltipId}>
-                        <div className="right" style={{ height: 21, width, backgroundColor: barColor }} />
-                    </span>
+                <div key={`${i}-bar`} className="clearfix" style={{ width: '100%', textAling: 'right' }}>
+                    <StretchableLambo key={`${i}-bar`} width={width}/>
                     <ReactTooltip id={tooltipId}>{gasCost}</ReactTooltip>
                 </div>
             );
