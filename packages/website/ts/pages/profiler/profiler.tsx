@@ -246,6 +246,7 @@ export class Profiler extends React.PureComponent<ProfilerProps, ProfilerState> 
         }
 
         this.setState({
+            selectedMethod: '*',
             contractAddress: newValue,
             addressErrMsg,
         });
