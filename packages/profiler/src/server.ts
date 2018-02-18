@@ -11,6 +11,7 @@ import { web3Wrapper } from './web3';
 intervalUtils.setAsyncExcludingInterval(
     async () => {
         const block = await web3Wrapper.getBlockAsync('latest');
+        console.log(`Fetched block: ${block.number}`);
         for (const txHash of block.transactions) {
             await trace.getTransactionConciseTraceAsync(txHash, false);
         }
