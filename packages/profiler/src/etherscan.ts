@@ -11,7 +11,7 @@ import { readHex } from './utils';
 
 export const etherscan = {
     async getTransactionsForAccountAsync(address: string): Promise<Transaction[]> {
-        const startblock = 5000000;
+        const startblock = 5111207;
         const params = {
             module: 'account',
             action: 'txlist',
