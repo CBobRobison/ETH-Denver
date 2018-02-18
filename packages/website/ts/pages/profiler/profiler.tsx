@@ -82,7 +82,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                     <div>Solc version: {this.state.gasStatsIfExist.solcVersion}</div>
                 </div>
                 <div className="col col-6 left-align">
-                    <div className="pb2">Optimized: {this.state.gasStatsIfExist.optimized}</div>
+                    <div className="pb2">Optimized: {`${this.state.gasStatsIfExist.optimized}`}</div>
                     <div>Optimized rounds: {this.state.gasStatsIfExist.optimizedRounds}</div>
                 </div>
             </div>
