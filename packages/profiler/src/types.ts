@@ -2,6 +2,14 @@ export interface GasCostByPc {
     [pc: number]: number;
 }
 
+export interface GasCostByPcBySignature {
+    [signature: string]: GasCostByPc;
+}
+
+export interface TxCountBySignature {
+    [signature: string]: number;
+}
+
 export interface GasCostByLine {
     [line: number]: number;
 }
