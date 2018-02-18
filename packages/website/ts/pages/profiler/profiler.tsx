@@ -15,6 +15,7 @@ import { TopBar } from 'ts/components/top_bar/top_bar';
 import { HelpTooltip } from 'ts/components/ui/help_tooltip';
 import { LifeCycleRaisedButton } from 'ts/components/ui/lifecycle_raised_button';
 import { StretchableLambo } from 'ts/components/ui/stretchable_lambo';
+import { Code } from 'ts/pages/profiler/code';
 import { colors } from 'ts/utils/colors';
 import { utils } from 'ts/utils/utils';
 
@@ -176,11 +177,7 @@ export class Profiler extends React.PureComponent<ProfilerProps, ProfilerState> 
                     {this._renderBars()}
                 </div>
                 <div className="col col-10">
-                    <div>
-                        <HighLight className={'solidity'} style={{ fontSize: 16, padding: 3 }}>
-                            {this.state.gasStatsIfExist.sourcecode}
-                        </HighLight>
-                    </div>
+                    <Code sourcecode={this.state.gasStatsIfExist.sourcecode} />
                 </div>
             </div>
         );
