@@ -419,6 +419,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
         return <div>{bars}</div>;
     }
     private _getBarColor(percent: number): string {
+        percent = 100 - percent;
         const color = 'green';
         const percents = _.keys(this.state.percentToColor);
         const percentColors = _.values(this.state.percentToColor);
