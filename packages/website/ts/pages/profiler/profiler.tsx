@@ -51,8 +51,17 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             <div>
                 <DocumentTitle title="0x Profiler" />
                 <TopBar blockchainIsLoaded={false} location={this.props.location} />
-                <div id="profiler" className="mx-auto max-width-4 pt4" style={{ color: colors.grey800 }}>
+                <div
+                    id="profiler"
+                    className="mx-auto max-width-4 pb4 pt3 mb4"
+                    style={{ color: colors.grey800, height: 800 }}
+                >
                     <h1 className="center">Solidity Gas Profiler</h1>
+                    <div className="p2 center" style={{ fontFamily: 'monospace', fontSize: 14 }}>
+                        <div className="pb1">"Premature optimization is the root of all evil."</div>
+                        <div>- Donald Knuth</div>
+                    </div>
+                    <div />
                     {this._renderContractAddressInput()}
                     {this._renderStats()}
                     {this._renderResults()}
@@ -119,6 +128,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                 <div className="pl2" style={{ paddingTop: 27 }}>
                     <LifeCycleRaisedButton
                         isPrimary={true}
+                        isDisabled={!_.isEmpty(this.state.addressErrMsg)}
                         labelReady="Profile"
                         labelLoading="Profiling..."
                         labelComplete="Profiled!"
@@ -219,7 +229,29 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
         return max;
     }
     private async _onProfileClickedAsync() {
-        const gasStatsIfExist = await this._fetchGasStatsAsync();
+        let gasStatsIfExist;
+        try {
+            gasStatsIfExist = await this._fetchGasStatsAsync();
+        } catch (err) {
+            let errMsg = '';
+            switch (err.message) {
+                case 'NOT_A_CONTRACT':
+                    errMsg = 'This is not a contract address';
+                    break;
+
+                case 'NO_ABI_FOUND':
+                    errMsg = 'This contract is not verified on Etherscan';
+                    break;
+
+                default:
+                    errMsg = 'Something went wrong. Please try again.';
+                    break;
+            }
+            this.setState({
+                addressErrMsg: errMsg,
+            });
+            return false;
+        }
         if (!_.isUndefined(gasStatsIfExist)) {
             this.setState({
                 gasStatsIfExist,
@@ -253,9 +285,12 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
         const response = await fetch(endpoint);
         if (response.status !== 200) {
             utils.consoleLog(`failed to fetch ${response}`);
-            return;
+            throw new Error('UNKNOWN_ERROR');
         }
-        const gasStatsIfExist = await response.json();
-        return gasStatsIfExist;
+        const responseJSON = await response.json();
+        if (!_.isUndefined(responseJSON.error)) {
+            throw new Error(responseJSON.error);
+        }
+        return responseJSON;
     }
 }
