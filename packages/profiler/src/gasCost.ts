@@ -1,11 +1,11 @@
-import { lineInfo, lineNumbers } from './lineNumbers';
 import { parse } from './sourceMap';
-import { idLog, letIn, objectReduce } from './utils';
+import { GasCostByLine } from './types';
+import { letIn, objectReduce } from './utils';
 
 const aggregateByLine = srcmap => trace =>
     objectReduce(
         trace,
-        (costs, pc, gasCost) =>
+        (costs: GasCostByLine, pc, gasCost: number) =>
             letIn(srcmap[pc].source.lineStart, line => ({
                 ...costs,
                 [line]: gasCost + (costs[line] || 0),

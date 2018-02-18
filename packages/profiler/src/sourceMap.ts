@@ -1,5 +1,5 @@
 import { programCounters } from './instructions';
-import { lineInfo, lineNumbers } from './lineNumbers';
+import { getLineInfo, lineNumbers } from './lineNumbers';
 import { idLog, letIn } from './utils';
 
 // Takes a sourcemap string
@@ -51,7 +51,7 @@ const addLineNumbers = sourceCode => sourceMap =>
     );
 
 const addLine = sourceCode => sourceMap =>
-    letIn(lineInfo(sourceCode), lineInfo =>
+    letIn(getLineInfo(sourceCode), lineInfo =>
         sourceMap.map(v => ({
             ...v,
             line: lineInfo[v.source.lineStart],

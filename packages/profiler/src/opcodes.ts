@@ -1,3 +1,4 @@
+// tslint:disable:number-literal-format
 export const codes = {
     // 0x0 range - arithmetic ops
     // name, baseCost, off stack, on stack, dynamic, async
@@ -158,7 +159,7 @@ export const codes = {
 };
 
 export const opinfo = (op, full) => {
-    let code = codes[op] ? codes[op] : ['INVALID', 0, 0, 0, false, false];
+    const code = codes[op] ? codes[op] : ['INVALID', 0, 0, 0, false, false];
     let opcode = code[0];
 
     if (full) {
