@@ -4,6 +4,8 @@ import * as _ from 'lodash';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import Toggle from 'material-ui/Toggle';
+import Checkbox from 'material-ui/Checkbox';
 import * as React from 'react';
 import * as DocumentTitle from 'react-document-title';
 import * as HighLight from 'react-highlight';
@@ -30,6 +32,7 @@ interface ProfilerState {
     selectedMethod: string;
     gasStatsIfExist: any;
     addressErrMsg: string;
+    lambo: boolean;
 }
 
 export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
@@ -42,6 +45,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             percentToColor,
             gasStatsIfExist: undefined,
             addressErrMsg: '',
+            lambo: false
         };
     }
     public componentDidMount() {
@@ -55,7 +59,7 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                 <div
                     id="profiler"
                     className="mx-auto max-width-4 pb4 pt3 mb4"
-                    style={{ color: colors.grey800, minHeight: 800 }}
+                    style={{ color: colors.grey800 }}
                 >
                     <h1 className="center">Solidity Gas Profiler</h1>
                     <div className="p2 center" style={{ fontFamily: 'monospace', fontSize: 14 }}>
@@ -65,6 +69,15 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
                     <div />
                     {this._renderContractAddressInput()}
                     {this._renderStats()}
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        {this._renderMethodDropDown()}
+                        {this._renderLamboToggle()}
+                    </div>
                     {this._renderResults()}
                 </div>
                 <Footer />
@@ -115,6 +128,26 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             </div>
         );
     }
+    private _renderLamboToggle() {
+        if (!addressUtils.isAddress(this.state.contractAddress) || _.isUndefined(this.state.gasStatsIfExist)) {
+            return null;
+        }
+        return (
+            <div className="flex" style={{height: '100%', verticalAlign: 'center', marginLeft: '1em'}}>
+                <div>
+                    <Toggle
+                        toggled={this.state.lambo}
+                        label="Lambo"
+                        labelPosition="right"
+                        onToggle={this._onToggleLambo.bind(this)}
+                    />
+                </div>
+                <div style={{ paddingTop: 20 }}>
+                    <HelpTooltip explanation="Express costs as streched Lambo's." />
+                </div>
+            </div>
+        );
+    }
     private _renderContractAddressInput() {
         return (
             <div className="mx-auto flex pb2" style={{ width: 400 }}>
@@ -147,7 +180,6 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             <div className="pt2 clearfix">
                 <div className="col col-2">{this._renderBars()}</div>
                 <div className="col col-10">
-                    {this._renderMethodDropDown()}
                     <div>
                         <HighLight className={'solidity'}>{this.state.gasStatsIfExist.sourcecode}</HighLight>
                     </div>
@@ -175,9 +207,15 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
             }
             const tooltipId = `${i}-tooltip`;
             const bar = (
-                <div key={`${i}-bar`} className="clearfix" style={{ width: '100%', textAling: 'right' }}>
-                    <StretchableLambo key={`${i}-bar`} width={width} />
-                    <ReactTooltip id={tooltipId}>{gasCost}</ReactTooltip>
+                <div key={`${i}-bar`} className="clearfix" style={{ width: '100%'}}>
+                    <span data-tip={true} data-for={tooltipId}>
+                        {(this.state.lambo ?
+                            <StretchableLambo key={`${i}-bar`} width={width}/>
+                        :
+                            <div className="right" style={{ height: 21.5, width, backgroundColor: barColor }} />
+                        )}
+                    </span>
+                <ReactTooltip id={tooltipId}>{gasCost}</ReactTooltip>
                 </div>
             );
             bars.push(bar);
@@ -277,6 +315,11 @@ export class Profiler extends React.Component<ProfilerProps, ProfilerState> {
     private _onChangeMethod(event: any, index: number, value: string) {
         this.setState({
             selectedMethod: value,
+        });
+    }
+    private _onToggleLambo(event: any, index: number, isInputChecked: boolean) {
+        this.setState({
+            lambo: isInputChecked
         });
     }
     private async _fetchGasStatsAsync() {
