@@ -12,7 +12,7 @@ import { web3Wrapper } from './web3';
 
 export const etherscan = {
     async smartlyGetTransactionsForAccountAsync(address: string, limit: number): Promise<Transaction[]> {
-        const blockNumber = await web3Wrapper.getBlockNumberAsync();
+        const blockNumber = (await web3Wrapper.getBlockNumberAsync()) - 10;
         let blockWindowSize = 1;
         while (true) {
             console.log(`Block window size: ${blockWindowSize}`);
